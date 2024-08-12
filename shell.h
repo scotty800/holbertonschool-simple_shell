@@ -8,5 +8,5 @@
 #include <string.h>
 
 int shell_execute(char **args);
-
+void prompt_main(char **input_line)
 #endif
