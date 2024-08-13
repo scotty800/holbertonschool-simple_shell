@@ -8,5 +8,6 @@
 #include <string.h>
 
 int shell_execute(char **args);
-void prompt_main(char **input_line)
+void prompt_main(char **input_line);
+int dash_exit(void);
 #endif

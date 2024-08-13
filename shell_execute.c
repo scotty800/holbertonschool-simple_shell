@@ -5,28 +5,35 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "shell.h"
-int shell_execute(char * * args)
+int shell_execute(char **args) 
 {
 	pid_t cpid;
 	int status;
 
-	if (strcmp(args[0], "exit") == 0)
+	if (strcmp(args[0], "exit") == 0) 
 	{
-		return (dash_exit());
+		return dash_exit();
 	}
+
 	cpid = fork();
 
-	if (cpid == 0)
+	if (cpid == 0) 
 	{
-		if (execvp(args[0], args) < 0)
+
+		if (execvp(args[0], args) < 0) 
+		{
 			perror("shell");
+		}
 		exit(EXIT_FAILURE);
-	}
-	else if (cpid < 0)
-		perror("shell")
-	else
+	} else if (cpid < 0) 
+
 	{
-		waitpid(cpid, & status, WUNTRACED);
+
+		perror("shell");
+	} else 
+	{
+		waitpid(cpid, &status, WUNTRACED);
 	}
-	return (1);
+
+	return 1;
 }
