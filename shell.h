@@ -11,4 +11,5 @@ int shell_execute(char **args);
 void prompt_main(char **input_line);
 int dash_exit(void);
 char *read_line();
+char **split_token(char *input_line);
 #endif
