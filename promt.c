@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * prompt_main - Displays a prompt and reads input from the user.
  * @input_line: Pointer to a string where the input line will be stored.
@@ -13,21 +13,16 @@
  */
 void prompt_main(char **input_line)
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t read;
 
 	while (1)
 	{
 		printf("$ ");
-		getline(&line, &len, stdin);
-		printf("%s", line);
-	}
-	printf("$");
 
-	if (line)
-	{
-		free(line);
+		*input_line = shell_read_line();
+
+		printf("%s", *input_line);
+
+		free(*input_line);
 	}
 	exit(EXIT_SUCCESS);
 
