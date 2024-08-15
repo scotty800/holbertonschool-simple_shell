@@ -158,6 +158,7 @@ int shell_execute(char **args)
 {
 	pid_t cpid;
 	int status;
+	char *envp[] = {NULL};
 
 	if (args[0] == NULL)
 	{
@@ -173,7 +174,7 @@ int shell_execute(char **args)
 
 	if (cpid == 0)
 	{
-		if (execvp(args[0], args) < 0)
+		if (execve(args[0], args, envp) == -1)
 		{
 			perror("shell");
 		}
