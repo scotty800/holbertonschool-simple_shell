@@ -23,9 +23,8 @@ char *shell_path(char *filename);
 int main(void)
 {
 	char *input_line = NULL;
-	char **args = NULL;
+	char **args;
 	int status = 1;
-	char **temp;
 
 	while (status)
 	{
@@ -36,7 +35,7 @@ int main(void)
 		if (input_line == NULL || *input_line == '\0')
 		{
 			free(input_line);
-			continue;
+			break;
 		}
 
 		args = split_token(input_line);
@@ -44,17 +43,7 @@ int main(void)
 		status = shell_execute(args);
 
 		free(input_line);
-
-		if (args != NULL)
-		{
-			temp = args;
-			while (*temp)
-			{
-				free(*temp);
-				temp++;
-			}
-			free(args);
-		}
+		free(args);
 	}
 
 	return (EXIT_SUCCESS);
@@ -97,10 +86,10 @@ char *read_line(void)
 		}
 		position++;
 
-		if (position >= buffsize - 1)
+		if (position >= buffsize)
 		{
 			buffsize += INITIAL_BUFFSIZE;
-			new_buffer = realloc(buffer, buffsize);
+			new_buffer = realloc(buffer, buffsize * sizeof(char *));
 			if (!new_buffer)
 			{
 				free(buffer);
@@ -139,18 +128,13 @@ char **split_token(char *input_line)
 	token = strtok(input_line, TOKEN_DELIMITERS);
 	while (token != NULL)
 	{
-		tokens[position] = _strdup(token);
-		if (tokens[position] == NULL)
-		{
-			fprintf(stderr, "Allocation error\n");
-			exit(EXIT_FAILURE);
-		}
+		tokens[position] = token;
 		position++;
 
 		if (position >= buffer)
 		{
 			buffer += MAX_TOKENS;
-			tokens = realloc(tokens, buffer * sizeof(char *));
+			tokens = realloc(tokens, buffer);
 			if (tokens == NULL)
 			{
 				fprintf(stderr, "Allocation error\n");
@@ -162,14 +146,14 @@ char **split_token(char *input_line)
 	tokens[position] = NULL;
 
 	return (tokens);
-} 
-/*shell_path - Locates the full path of a command.
+}
+
+/**
+ * shell_path - Locates the full path of a command.
  * @filename: The command name.
- *
  * This function searches for the command in the directories listed in the
  * PATH environment variable. If found, it returns the full path of the
  * command; otherwise, it returns NULL.
- *
  * Return: A pointer to the full path of the command, or NULL if not found.
  */
 char *shell_path(char *filename)
@@ -177,9 +161,8 @@ char *shell_path(char *filename)
 	char *path;
 	char *path_copy;
 	char *dir;
-	char *path_full;
-	
-	path_full = malloc(MAX_PATH);
+	char *path_full = malloc(MAX_PATH);
+
 	if (path_full == NULL)
 	{
 		perror("malloc");
@@ -249,6 +232,7 @@ int shell_execute(char **args)
 {
 	pid_t cpid;
 	int status;
+	char *envp[] = {NULL};
 	char *cmd_path = NULL;
 
 	if (args[0] == NULL)
@@ -263,7 +247,7 @@ int shell_execute(char **args)
 
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
-		cmd_path = _strdup(args[0]);
+		cmd_path = args[0];
 	}
 	else
 	{
@@ -271,7 +255,7 @@ int shell_execute(char **args)
 		cmd_path = shell_path(args[0]);
 		if (cmd_path == NULL)
 		{
-			fprintf(stderr, "%s: not found\n", args[0]);
+			fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
 			return (1);
 		}
 	}
@@ -281,7 +265,7 @@ int shell_execute(char **args)
 
 	if (cpid == 0)
 	{
-		if (execve(cmd_path, args, NULL) == -1)
+		if (execve(cmd_path, args, envp) == -1)
 		{
 			perror("shell");
 		}
@@ -290,14 +274,12 @@ int shell_execute(char **args)
 	else if (cpid < 0)
 	{
 		perror("shell");
-		free(cmd_path);
-		return (1);
 	}
 	else
 	{
 		waitpid(cpid, &status, WUNTRACED);
 	}
-	if (cmd_path && cmd_path != args[0])
+	if (cmd_path != args[0])
 	{
 
 		free(cmd_path);
@@ -305,3 +287,14 @@ int shell_execute(char **args)
 
 	return (1);
 }
+
+/**
+ * dash_exit - Exits the shell program.
+ * This function terminates the shell by calling exit with EXIT_SUCCESS.
+ * Return: exit_SUCCESS
+ */
+int dash_exit(void)
+{
+	exit(EXIT_SUCCESS);
+}
+
