@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include "shell.h"
 
 
@@ -12,11 +11,6 @@ char **split_token(char *input_line);
 int shell_execute(char **args);
 int dash_exit(void);
 char *shell_path(char *filename);
-char *_strcat(char *dest, char *src);
-int _strcmp(char *s1, char *s2);
-char *_strcpy(char *dest, char *src);
-char *_strdup(char *str);
-
 /**
  * main - Entry point of the shell program.
  *
@@ -180,7 +174,7 @@ char *shell_path(char *filename)
 		return NULL;
 	}
 
-	path_copy = strdup(path);
+	path_copy = _strdup(path);
 	if (path_copy == NULL)
 	{
 		perror("strdup de path");
@@ -193,9 +187,9 @@ char *shell_path(char *filename)
 	{
 		path_full[0] = '\0';
 
-		strcat(path_full, dir);
-		strcat(path_full, "/");
-		strcat(path_full, filename);
+		_strcat(path_full, dir);
+		_strcat(path_full, "/");
+		_strcat(path_full, filename);
 
 		if (access(path_full, F_OK) == 0)
 		{
