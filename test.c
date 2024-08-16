@@ -35,7 +35,7 @@ int main(void)
 		if (input_line == NULL || *input_line == '\0')
 		{
 			free(input_line);
-			continue;
+			break;
 		}
 
 		args = split_token(input_line);
@@ -62,6 +62,7 @@ char *read_line(void)
 	int buffsize = INITIAL_BUFFSIZE;
 	int position = 0;
 	char *buffer = malloc(sizeof(char) * buffsize);
+	char *new_buffer;
 	int c;
 
 	if (!buffer)
@@ -88,12 +89,14 @@ char *read_line(void)
 		if (position >= buffsize)
 		{
 			buffsize += INITIAL_BUFFSIZE;
-			buffer = realloc(buffer, buffsize);
-			if (!buffer)
+			new_buffer = realloc(buffer, buffsize * sizeof(char *));
+			if (!new_buffer)
 			{
+				free(buffer);
 				fprintf(stderr, "dash: Allocation error\n");
 				exit(EXIT_FAILURE);
 			}
+			buffer = new_buffer;
 		}
 	}
 }
@@ -131,7 +134,7 @@ char **split_token(char *input_line)
 		if (position >= buffer)
 		{
 			buffer += MAX_TOKENS;
-			tokens = realloc(tokens, buffer * sizeof(char *));
+			tokens = realloc(tokens, buffer);
 			if (tokens == NULL)
 			{
 				fprintf(stderr, "Allocation error\n");
@@ -142,7 +145,7 @@ char **split_token(char *input_line)
 	}
 	tokens[position] = NULL;
 
-	return tokens;
+	return (tokens);
 } 
 /*shell_path - Locates the full path of a command.
  * @filename: The command name.
@@ -169,15 +172,57 @@ char *shell_path(char *filename)
 	path = getenv("PATH");
 	if (path == NULL)
 	{
-		fprintf(stderr, "ERREUR : PATH non défini\n");
+		fprintf(stderr, "ERROR: PATH\n");
 		free(path_full);
-		return NULL;
+		return (NULL);
 	}
 
 	path_copy = _strdup(path);
 	if (path_copy == NULL)
 	{
-		perror("strdup de path");
+		perror("strdup on path");char *read_line(void)
+		{
+			int buffsize = INITIAL_BUFFSIZE;
+			int position = 0;
+			char *buffer = malloc(sizeof(char) * buffsize);
+			char *new_buffer;
+			int c;
+
+			if (!buffer)
+			{
+				fprintf(stderr, "dash: Allocation error\n");
+				exit(EXIT_FAILURE);
+			}
+
+			while (1)
+			{
+				c = getchar();
+
+				if (c == EOF || c == '\n')
+				{
+					buffer[position] = '\0';
+					return (buffer);
+				}
+				else
+				{
+					buffer[position] = c;
+				}
+				position++;
+
+				if (position >= buffsize)
+				{
+					buffsize += INITIAL_BUFFSIZE;
+					new_buffer = realloc(buffer, buffsize);
+					if (!new_buffer)
+					{
+						free(buffer);
+						fprintf(stderr, "dash: Allocation error\n");
+						exit(EXIT_FAILURE);
+					}
+					buffer = new_buffer;
+				}
+			}
+		}
 		free(path_full);
 		exit(EXIT_FAILURE);
 	}
@@ -196,14 +241,14 @@ char *shell_path(char *filename)
 			if (access(path_full, X_OK) == 0)
 			{
 				free(path_copy);
-				return path_full;
+				return (path_full);
 			}
 			else
 			{
 				fprintf(stderr, "shell: permission refusée : %s\n", path_full);
 				free(path_copy);
 				free(path_full);
-				return NULL;
+				return (NULL);
 			}
 		}
 
@@ -212,7 +257,7 @@ char *shell_path(char *filename)
 
 	free(path_copy);
 	free(path_full);
-	return NULL;
+	return (NULL);
 }
 
 /**
@@ -234,12 +279,12 @@ int shell_execute(char **args)
 
 	if (args[0] == NULL)
 	{
-		return 1;
+		return (1);
 	}
 
-	if (strcmp(args[0], "exit") == 0)
+	if (_strcmp(args[0], "exit") == 0)
 	{
-		dash_exit();
+		return (0);
 	}
 
 	if (args[0][0] == '/' || args[0][0] == '.')
@@ -253,7 +298,7 @@ int shell_execute(char **args)
 		if (cmd_path == NULL)
 		{
 			fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
-			return 1;
+			return (1);
 		}
 	}
 
@@ -282,7 +327,7 @@ int shell_execute(char **args)
 		free(cmd_path);
 	}
 
-	return 1;
+	return (1);
 }
 
 /**
