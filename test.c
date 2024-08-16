@@ -40,6 +40,19 @@ int main(void)
 
 		args = split_token(input_line);
 
+		if (args == NULL || args[0] == NULL)
+		{
+			free(input_line);
+			free(args);
+			continue;
+		}
+
+		if (_strcmp(args[0], "exit") == 0)
+		{
+			free(input_line);
+			free(args);
+			break;
+		}
 		status = shell_execute(args);
 
 		free(input_line);
@@ -89,7 +102,7 @@ char *read_line(void)
 		if (position >= buffsize)
 		{
 			buffsize += INITIAL_BUFFSIZE;
-			new_buffer = realloc(buffer, buffsize * sizeof(char *));
+			new_buffer = realloc(buffer, buffsize * sizeof(char));
 			if (!new_buffer)
 			{
 				free(buffer);
@@ -134,7 +147,7 @@ char **split_token(char *input_line)
 		if (position >= buffer)
 		{
 			buffer += MAX_TOKENS;
-			tokens = realloc(tokens, buffer);
+			tokens = realloc(tokens, buffer * sizeof(char *));
 			if (tokens == NULL)
 			{
 				fprintf(stderr, "Allocation error\n");
@@ -260,6 +273,11 @@ int shell_execute(char **args)
 		}
 	}
 
+	if (cmd_path == NULL)
+	{
+		fprintf(stderr, "shell commande introuvable: %s\n", args[0]);
+		return (1);
+	}
 
 	cpid = fork();
 
