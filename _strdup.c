@@ -8,10 +8,13 @@
 
 char *_strdup(const char *str)
 {
-	size_t len = strlen(str) + 1;
-	char *dup = malloc(len);
+	size_t len;
+	char *dup;
 	if (str == NULL)
 		return NULL;
+
+	len = strlen(str) + 1;
+	dup = malloc(len);
 
 	if (dup == NULL)
 		return NULL;
