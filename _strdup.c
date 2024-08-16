@@ -9,14 +9,16 @@
 char *_strdup(char *str)
 {
 	size_t len = strlen(str) + 1;
-	char *dup_str = malloc(len);
+	char *dup;
+
 	if (str == NULL)
-		return NULL;
+		return (NULL);
 
-	if (dup_str == NULL)
-		return NULL;
+	dup = malloc(len);
+	if (dup == NULL)
+		return (NULL);
 
-	memcpy(dup_str, str, len);
+	memcpy(dup, str, len);
 
-	return dup_str;
+	return (dup);
 }

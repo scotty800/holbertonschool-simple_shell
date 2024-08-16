@@ -23,9 +23,9 @@ char *shell_path(char *filename);
 int main(void)
 {
 	char *input_line = NULL;
-	char **args;
+	char **args = NULL;
 	int status = 1;
-	char **temp = args;
+	char **temp;
 
 	while (status)
 	{
@@ -248,7 +248,6 @@ int shell_execute(char **args)
 {
 	pid_t cpid;
 	int status;
-	char *envp[] = {NULL};
 	char *cmd_path = NULL;
 
 	if (args[0] == NULL)
@@ -281,7 +280,7 @@ int shell_execute(char **args)
 
 	if (cpid == 0)
 	{
-		if (execve(cmd_path, args, envp) == -1)
+		if (execve(cmd_path, args, NULL) == -1)
 		{
 			perror("shell");
 		}
@@ -303,14 +302,3 @@ int shell_execute(char **args)
 
 	return (1);
 }
-
-/**
- * dash_exit - Exits the shell program.
- *
- * This function terminates the shell by calling exit with EXIT_SUCCESS.
- */
-int dash_exit(void)
-{
-	exit(EXIT_SUCCESS);
-}
-
