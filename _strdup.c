@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <string.h>
 
 /**
  * _strdup -Duplique une chaine de cara
