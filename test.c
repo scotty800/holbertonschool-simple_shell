@@ -177,7 +177,7 @@ char *shell_path(char *filename)
 	char *path;
 	char *path_copy;
 	char *dir;
-	char *path_full
+	char *path_full;
 	
 	path_full = malloc(MAX_PATH);
 	if (path_full == NULL)
