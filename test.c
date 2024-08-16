@@ -8,7 +8,6 @@
 
 char *read_line(void);
 char **split_token(char *input_line);
-int shell_execute(char **args);
 int dash_exit(void);
 char *shell_path(char *filename);
 /**
@@ -102,7 +101,7 @@ char *read_line(void)
 		if (position >= buffsize)
 		{
 			buffsize += INITIAL_BUFFSIZE;
-			new_buffer = realloc(buffer, buffsize * sizeof(char));
+			new_buffer = realloc(buffer, buffsize);
 			if (!new_buffer)
 			{
 				free(buffer);
@@ -297,7 +296,7 @@ int shell_execute(char **args)
 	{
 		waitpid(cpid, &status, WUNTRACED);
 	}
-	if (cmd_path != args[0])
+	if (args[0][0] != '/' && args[0][0] != '.')
 	{
 
 		free(cmd_path);
