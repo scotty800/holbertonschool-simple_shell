@@ -25,6 +25,7 @@ int main(void)
 	char *input_line = NULL;
 	char **args;
 	int status = 1;
+	char **temp = args;
 
 	while (status)
 	{
@@ -43,7 +44,17 @@ int main(void)
 		status = shell_execute(args);
 
 		free(input_line);
-		free(args);
+
+		if (args != NULL)
+		{
+			temp = args;
+			while (*temp)
+			{
+				free(*temp);
+				temp++;
+			}
+			free(args);
+		}
 	}
 
 	return (EXIT_SUCCESS);
@@ -89,7 +100,7 @@ char *read_line(void)
 		if (position >= buffsize)
 		{
 			buffsize += INITIAL_BUFFSIZE;
-			new_buffer = realloc(buffer, buffsize * sizeof(char *));
+			new_buffer = realloc(buffer, buffsize);
 			if (!new_buffer)
 			{
 				free(buffer);
@@ -128,13 +139,18 @@ char **split_token(char *input_line)
 	token = strtok(input_line, TOKEN_DELIMITERS);
 	while (token != NULL)
 	{
-		tokens[position] = token;
+		tokens[position] = _strdup(token);
+		if (tokens[position] == NULL)
+		{
+			fprintf(stderr, "Allocation error\n");
+			exit(EXIT_FAILURE);
+		}
 		position++;
 
 		if (position >= buffer)
 		{
 			buffer += MAX_TOKENS;
-			tokens = realloc(tokens, buffer);
+			tokens = realloc(tokens, buffer * sizeof(char *));
 			if (tokens == NULL)
 			{
 				fprintf(stderr, "Allocation error\n");
@@ -180,49 +196,7 @@ char *shell_path(char *filename)
 	path_copy = _strdup(path);
 	if (path_copy == NULL)
 	{
-		perror("strdup on path");char *read_line(void)
-		{
-			int buffsize = INITIAL_BUFFSIZE;
-			int position = 0;
-			char *buffer = malloc(sizeof(char) * buffsize);
-			char *new_buffer;
-			int c;
-
-			if (!buffer)
-			{
-				fprintf(stderr, "dash: Allocation error\n");
-				exit(EXIT_FAILURE);
-			}
-
-			while (1)
-			{
-				c = getchar();
-
-				if (c == EOF || c == '\n')
-				{
-					buffer[position] = '\0';
-					return (buffer);
-				}
-				else
-				{
-					buffer[position] = c;
-				}
-				position++;
-
-				if (position >= buffsize)
-				{
-					buffsize += INITIAL_BUFFSIZE;
-					new_buffer = realloc(buffer, buffsize);
-					if (!new_buffer)
-					{
-						free(buffer);
-						fprintf(stderr, "dash: Allocation error\n");
-						exit(EXIT_FAILURE);
-					}
-					buffer = new_buffer;
-				}
-			}
-		}
+		perror("strdup on path");
 		free(path_full);
 		exit(EXIT_FAILURE);
 	}
@@ -297,7 +271,7 @@ int shell_execute(char **args)
 		cmd_path = shell_path(args[0]);
 		if (cmd_path == NULL)
 		{
-			fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
+			fprintf(stderr, "%s: not found\n", args[0]);
 			return (1);
 		}
 	}
