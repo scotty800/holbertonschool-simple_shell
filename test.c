@@ -36,7 +36,7 @@ int main(void)
 		if (input_line == NULL || *input_line == '\0')
 		{
 			free(input_line);
-			break;
+			continue;
 		}
 
 		args = split_token(input_line);
@@ -97,7 +97,7 @@ char *read_line(void)
 		}
 		position++;
 
-		if (position >= buffsize)
+		if (position >= buffsize - 1)
 		{
 			buffsize += INITIAL_BUFFSIZE;
 			new_buffer = realloc(buffer, buffsize);
@@ -177,8 +177,9 @@ char *shell_path(char *filename)
 	char *path;
 	char *path_copy;
 	char *dir;
-	char *path_full = malloc(MAX_PATH);
-
+	char *path_full
+	
+	path_full = malloc(MAX_PATH);
 	if (path_full == NULL)
 	{
 		perror("malloc");
@@ -262,7 +263,7 @@ int shell_execute(char **args)
 
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
-		cmd_path = args[0];
+		cmd_path = _strdup(args[0]);
 	}
 	else
 	{
@@ -289,6 +290,8 @@ int shell_execute(char **args)
 	else if (cpid < 0)
 	{
 		perror("shell");
+		free(cmd_path);
+		return (1);
 	}
 	else
 	{
