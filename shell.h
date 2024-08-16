@@ -1,5 +1,5 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,8 +15,8 @@ int dash_exit(void);
 char *read_line();
 char **split_token(char *input_line);
 char *shell_path(char *filename);
-char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
-char *_strdup(char *str);
+char *_strcat(char *dest, char *src);
+char *_strdup(const char *str);
 
 #endif
