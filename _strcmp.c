@@ -1,9 +1,8 @@
-#include "main.h"
-#include <string.h>
-#include <stdio.h>
+#include "shell.h"
+
 
 /**
- * *_strcmp -print
+ * _strcmp -print
  * @s1: pointer
  * @s2: pointer
  * Return: 1 si c'est Ãgale et faux si c'est 0

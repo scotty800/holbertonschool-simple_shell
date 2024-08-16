@@ -1,40 +1,23 @@
-#include "main.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include "shell.h"
 
 /**
  * _strdup -Duplique une chaine de cara
  * @str: La chaine de caractÃrs
  * Return: 0
  */
+
 char *_strdup(char *str)
 {
-	int index;
-	char *s;
-	int lenght = 0;
+    if (str == NULL)
+        return NULL;
 
-	if (str == NULL)
-	{
-		return (NULL);
-	}
+    size_t len = strlen(str) + 1;
 
-	while (str[lenght] != '\0')
-	{
-		lenght++;
-	}
+    char *dup_str = malloc(len);
+    if (dup_str == NULL)
+        return NULL;
 
-	s = malloc(sizeof(char) * (lenght + 1));
+    memcpy(dup_str, str, len);
 
-	if (s == NULL)
-	{
-		return (NULL);
-	}
-
-	for (index = 0; index <= lenght; index++)
-	{
-		s[index] = str[index];
-	}
-	s[index] = '\0';
-
-	return (s);
+    return dup_str;
 }

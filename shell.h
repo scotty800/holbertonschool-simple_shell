@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <stddef.h>
 
 int shell_execute(char **args);
 void prompt_main(char **input_line);
