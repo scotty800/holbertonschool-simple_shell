@@ -6,19 +6,16 @@
  * Return: 0
  */
 
-char *_strdup(char *str)
+char *_strdup(const char *str)
 {
 	size_t len = strlen(str) + 1;
-	char *dup;
-
+	char *dup = malloc(len);
 	if (str == NULL)
-		return (NULL);
+		return NULL;
 
-	dup = malloc(len);
 	if (dup == NULL)
-		return (NULL);
+		return NULL;
 
 	memcpy(dup, str, len);
-
 	return (dup);
 }

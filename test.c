@@ -297,7 +297,7 @@ int shell_execute(char **args)
 	{
 		waitpid(cpid, &status, WUNTRACED);
 	}
-	if (cmd_path != args[0])
+	if (cmd_path && cmd_path != args[0])
 	{
 
 		free(cmd_path);
