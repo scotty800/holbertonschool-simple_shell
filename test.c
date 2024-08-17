@@ -1,15 +1,5 @@
 #include "shell.h"
 
-
-#define INITIAL_BUFFSIZE 1024
-#define MAX_TOKENS 128
-#define TOKEN_DELIMITERS " \t\r\n\a"
-#define MAX_PATH 256
-
-char *read_line(void);
-char **split_token(char *input_line);
-int dash_exit(void);
-char *shell_path(char *filename);
 /**
  * main - Entry point of the shell program.
  *

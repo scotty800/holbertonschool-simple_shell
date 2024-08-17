@@ -9,6 +9,11 @@
 #include <string.h>
 #include <stddef.h>
 
+#define INITIAL_BUFFSIZE 1024
+#define MAX_TOKENS 128
+#define TOKEN_DELIMITERS " \t\r\n\a"
+#define MAX_PATH 256
+
 int shell_execute(char **args);
 void prompt_main(char **input_line);
 int dash_exit(void);
