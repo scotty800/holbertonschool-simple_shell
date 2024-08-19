@@ -130,6 +130,6 @@ A Faire
 A Faire 
 ### Author 
 
-Yannis Ranguin
+[Yannis Ranguin](https://github.com/Yannis95200)
 
-Scotty Ndanga
+[Scotty Ndanga](https://github.com/scotty800)
