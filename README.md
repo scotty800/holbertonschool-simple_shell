@@ -103,7 +103,8 @@ $ ./hsh
 ````
 ### Flowchart
 
-A faire
+![WhatsApp Image 2024-08-20 à 13 11 44_f172dfe4](https://github.com/user-attachments/assets/4370fa27-0595-425b-8f73-1db6d0f074a2)
+
 ## How to use it
 
 In order to use this shell, in a terminal, first run the program:
