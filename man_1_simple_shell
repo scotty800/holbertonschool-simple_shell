@@ -1,0 +1,116 @@
+.TH SHELL 1 "August 2024" "1.0" "Simple Shell"
+.SH NAME
+shell \- A simple command interpreter
+.SH SYNOPSIS
+.B shell
+.SH DESCRIPTION
+The
+.B shell
+program is a simple command interpreter that allows users to enter commands, execute them, and handle basic errors. It continues to run until the user enters the
+.B exit
+command.
+.SH FUNCTIONS
+.TP
+.B main
+.PP
+Entry point of the shell program. The program displays a command prompt (\$), reads a line of input from the user, splits it into tokens, and then executes the command. The loop continues until the
+.B shell_execute
+function returns 0.
+.PP
+Returns: Always
+.B EXIT_SUCCESS.
+.TP
+.B prompt_main
+.PP
+Displays a prompt to the user and reads a line of input from standard input using
+.B getline.
+If
+.B getline
+fails, an error message is printed, and the program exits.
+.PP
+Parameters:
+.RS
+* input_line: A pointer to a pointer to a buffer where the input will be stored.
+.RE
+.PP
+Returns: None.
+.TP
+.B shell_execute
+.PP
+Executes a command based on user input. Creates a child process to execute the command. If the command is
+.B exit,
+the shell terminates. Handles errors by printing error messages.
+.PP
+Parameters:
+.RS
+* args: An array of command arguments.
+.RE
+.PP
+Returns: 1 if the shell should continue running, 0 if the shell should exit.
+.TP
+.B shell_path
+.PP
+Locates the full path of a command by searching in directories listed in the
+.B PATH
+environment variable.
+.PP
+Parameters:
+.RS
+* filename: The name of the command.
+.RE
+.PP
+Returns: A pointer to the full path of the command, or NULL if the command is not found.
+.TP
+.B read_line
+.PP
+Reads a line of input from standard input. Dynamically allocates memory for the input buffer and adjusts the buffer size as needed.
+.PP
+Returns: A pointer to the input buffer.
+.TP
+.B split_token
+.PP
+Splits an input line into tokens using defined delimiters. Allocates memory for tokens and dynamically adjusts the size of the memory block as needed.
+.PP
+Parameters:
+.RS
+* input_line: The line of input to split.
+.RE
+.PP
+Returns: An array of tokens (null-terminated).
+.TP
+.B dash_exit
+.PP
+Terminates the shell program by calling
+.B exit
+with
+.B EXIT_SUCCESS.
+.PP
+Returns: Always
+.B EXIT_SUCCESS.
+.SH CONSTANTS
+.TP
+.B INITIAL_BUFFSIZE
+.PP
+Initial buffer size for reading lines (1024 bytes).
+.TP
+.B MAX_TOKENS
+.PP
+Default maximum number of tokens (128).
+.TP
+.B TOKEN_DELIMITERS
+.PP
+Delimiters used to split tokens (" \\t\\r\\n\\a").
+.TP
+.B MAX_PATH
+.PP
+Maximum path size for commands (256 bytes).
+.SH SEE ALSO
+.B getline(3),
+.B fork(2),
+.B execve(2),
+.B waitpid(2)
+.SH AUTHOR
+Yannis Ranguin
+
+Scotty Ndanga
+
