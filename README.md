@@ -116,16 +116,29 @@ It will then display a simple prompt and wait for commands.
 Exemple 1 :
 ``` 
 ls -a
- A faire
+.  ..  .git  README.md  _strcat.c  _strcmp.c  _strcpy.c  _strdup.c  dash_exit.c  hsh  prompt.c  shell.h  shell_execute.c  shell_main.c  shell_path.c  shell_read_line.c  shell_split_token.c
 ```
 
 Exemple 2
 ```
 "/bin/ls"
-A Faire
+README.md  _strcat.c  _strcmp.c  _strcpy.c  _strdup.c  dash_exit.c  hsh  prompt.c  shell.h  shell_execute.c  shell_main.c  shell_path.c  shell_read_line.c  shell_split_token.c
 ```
 
-## Description of function 
+
+## Description of function
+
+- shell_read_line : function reads a line of input from standard input, dynamically allocating and resizing a buffer to fit the input size
+
+- shell_execute : function runs a command by forking a child process, handling errors, and returns 1 to continue or 0 to exit the shell
+
+- prompt.c : function displays a prompt, reads a line of input, and handles errors from getline
+
+- shell_split_token : function splits an input line into tokens based on delimiters, dynamically resizing the token array as needed, and returns the array.
+
+- shell_path : function finds and returns the executable's full path in the system's PATH or NULL if not found or accessible.
+
+-  dash_exit : function terminates the program with a successful exit status.
 
 A Faire 
 ### Author 
