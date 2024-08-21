@@ -20,8 +20,8 @@ void prompt_main(char **input_line)
 
 	if (read == -1)
 	{
-		*input_line = NULL;
 		free(*input_line);
+		*input_line = NULL;
 		exit(0);
 	}
 }

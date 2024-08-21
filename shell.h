@@ -23,5 +23,7 @@ char *shell_path(char *filename);
 int _strcmp(char *s1, char *s2);
 char *_strcat(char *dest, char *src);
 char *_strdup(const char *str);
+int shell_env(void);
 
+extern char **environ;
 #endif

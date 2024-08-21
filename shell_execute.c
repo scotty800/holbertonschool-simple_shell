@@ -9,17 +9,14 @@ int shell_execute(char **args)
 {
 	pid_t cpid;
 	int status;
-	char *envp[] = {NULL};
 	char *cmd_path = NULL;
 
-	if (args[0] == NULL)
-		return (1);
 	if (_strcmp(args[0], "exit") == 0)
-		return (0);
+		return (dash_exit());
+	if (_strcmp(args[0], "env") == 0)
+		return (shell_env());
 	if (args[0][0] == '/' || args[0][0] == '.')
-	{
 		cmd_path = args[0];
-	}
 	else
 	{
 		cmd_path = shell_path(args[0]);
@@ -30,21 +27,24 @@ int shell_execute(char **args)
 		}
 	}
 	cpid = fork();
-	if (cpid < 0)
+	if (cpid == 0)
+	{
+		if (execve(cmd_path, args, environ) < 0)
+		{
+			perror("execve");
+			if (cmd_path && cmd_path != args[0])
+				exit(EXIT_FAILURE);
+		}
+	}
+	else if (cpid < 0)
 	{
 		perror("shell");
-	}
-	else if (cpid == 0)
-	{
-		if (execve(cmd_path, args, envp) == -1)
-		{
-			perror("shell");
-		}
+		return (1);
 	}
 	else
 	{
-		waitpid(cpid, &status, WUNTRACED);
+		if (waitpid(cpid, &status, WUNTRACED) == -1)
+			perror("waitpid");
 	}
-	free(cmd_path);
 	return (1);
 }

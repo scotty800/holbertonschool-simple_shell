@@ -23,7 +23,7 @@ int main(void)
 		{
 			free(input_line);
 			input_line = NULL;
-			break;
+			continue;
 		}
 
 		args = split_token(input_line);
@@ -31,7 +31,6 @@ int main(void)
 		if (args == NULL || args[0] == NULL)
 		{
 			free(input_line);
-			free(args);
 			continue;
 		}
 
@@ -44,7 +43,8 @@ int main(void)
 		status = shell_execute(args);
 		free(input_line);
 		free(args);
-	}
 
+		input_line = NULL;
+	}
 	return (EXIT_SUCCESS);
 }
