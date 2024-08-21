@@ -39,9 +39,11 @@ char *shell_path(char *filename)
 			{
 				fprintf(stderr, "shell: permission refusée : %s\n", path_full);
 				free(path_full);
+				free(path_copy);
 				return (NULL);
 			}
 		}
+	
 	}
 	free(path_copy);
 	free(path_full);

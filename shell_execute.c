@@ -30,11 +30,10 @@ int shell_execute(char **args)
 
 		if (args[0][0] == '/' || args[0][0] == '.')
 		{
-			cmd_path = _strdup(args[0]);
+			cmd_path = shell_path(args[0]);
 			if (cmd_path == NULL)
 			{
 				perror("shell");
-				free(cmd_path);
 				exit(EXIT_FAILURE);
 			}
 		}

@@ -19,7 +19,6 @@ char *read_line(void)
 	if (buffer == NULL)
 	{
 		fprintf(stderr, "dash: Allocation error\n");
-		free(buffer);
 		exit(EXIT_FAILURE);
 	}
 
@@ -46,6 +45,7 @@ char *read_line(void)
 			{
 				fprintf(stderr, "dash: Allocation error\n");
 				free(new_buffer);
+				free(buffer);
 				exit(EXIT_FAILURE);
 			}
 			buffer = new_buffer;
