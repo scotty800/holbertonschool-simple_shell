@@ -41,7 +41,7 @@ char *shell_path(char *filename)
 				return (NULL);
 			}
 		}
-	
+
 	}
 	free(path_copy);
 	free(path_full);
