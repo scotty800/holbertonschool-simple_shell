@@ -14,6 +14,7 @@ int shell_execute(char **args)
 	char *cmd_path = NULL;
 
 	if (args[0] == NULL)
+		free(args);
 		return (1);
 
 	if (_strcmp(args[0], "exit") == 0)
