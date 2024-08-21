@@ -35,7 +35,8 @@ int shell_execute(char **args)
 	{
 		if (execve(cmd_path, args, envp) == -1)
 			perror("shell");
-		exit(EXIT_FAILURE);
+			free(cmd_path);
+			exit(EXIT_FAILURE);
 	}
 	else if (cpid < 0)
 	{
