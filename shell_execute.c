@@ -27,7 +27,6 @@ int shell_execute(char **args)
 		if (cmd_path == NULL)
 		{
 			fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
-			free(cmd_path);
 			return (1);
 		}
 	}
