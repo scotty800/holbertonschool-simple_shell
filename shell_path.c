@@ -18,8 +18,8 @@ char *shell_path(char *filename)
 		perror("strdup on path");
 		perror("malloc");
 		free(path_full);
+		free(path_copy);
 		exit(EXIT_FAILURE);
-		return (NULL);
 	}
 	for (dir = strtok(path_copy, ":"); dir != NULL; dir = strtok(NULL, ":"))
 	{

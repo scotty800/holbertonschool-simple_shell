@@ -19,7 +19,8 @@ void prompt_main(char **input_line)
 
 	if (read == -1)
 	{
-		perror("getline");
+		free(*input_line);
+		*input_line = NULL;
 		exit(EXIT_SUCCESS);
 	}
 }

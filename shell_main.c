@@ -22,6 +22,7 @@ int main(void)
 		if (input_line == NULL || *input_line == '\0')
 		{
 			free(input_line);
+			input_line = NULL;
 			break;
 		}
 
@@ -30,6 +31,7 @@ int main(void)
 		if (args == NULL || args[0] == NULL)
 		{
 			free(input_line);
+			input_line = NULL;
 			free(args);
 			continue;
 		}
@@ -37,13 +39,15 @@ int main(void)
 		if (_strcmp(args[0], "exit") == 0)
 		{
 			free(input_line);
+			input_line = NULL;
 			free(args);
 			break;
 		}
 		status = shell_execute(args);
-
 		free(input_line);
+		input_line = NULL;
 		free(args);
+		args = NULL;
 	}
 
 	return (EXIT_SUCCESS);
