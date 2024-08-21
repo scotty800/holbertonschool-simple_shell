@@ -30,24 +30,24 @@ int main(void)
 
 		if (args == NULL || args[0] == NULL)
 		{
-			free(input_line);
 			input_line = NULL;
+			free(input_line);
 			free(args);
 			continue;
 		}
 
 		if (_strcmp(args[0], "exit") == 0)
 		{
-			free(input_line);
 			input_line = NULL;
+			free(input_line);
 			free(args);
 			break;
 		}
 		status = shell_execute(args);
-		free(input_line);
 		input_line = NULL;
-		free(args);
 		args = NULL;
+		free(input_line);
+		free(args);
 	}
 
 	return (EXIT_SUCCESS);
