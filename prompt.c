@@ -13,14 +13,15 @@ void prompt_main(char **input_line)
 {
 	size_t len = 0;
 	ssize_t read;
+	char *promt = "$ ";
 
-	write(1, "$ ", len);
+	write(STDIN_FILENO, promt, strlen(promt));
 	read = getline(input_line, &len, stdin);
 
 	if (read == -1)
 	{
 		*input_line = NULL;
-		free(input_line);
-		exit(EXIT_SUCCESS);
+		free(*input_line);
+		exit(EXIT_FAILURE);
 	}
 }
