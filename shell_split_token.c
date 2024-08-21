@@ -24,7 +24,6 @@ char **split_token(char *input_line)
 		free(tokens);
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(input_line, TOKEN_DELIMITERS);
 	while (token != NULL)
 	{

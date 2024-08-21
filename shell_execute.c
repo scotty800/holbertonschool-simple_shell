@@ -45,8 +45,10 @@ int shell_execute(char **args)
 	{
 		waitpid(cpid, &status, WUNTRACED);
 	}
-	if (args[0][0] != '/' && args[0][0] != '.')
+	if (cmd_path != args[0])
+	{
 		free(cmd_path);
+	}
 	return (1);
 }
 
