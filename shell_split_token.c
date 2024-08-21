@@ -45,7 +45,6 @@ char **split_token(char *input_line)
 		token = strtok(NULL, TOKEN_DELIMITERS);
 	}
 	tokens[position] = NULL;
-	free(tokens);
 	return (tokens);
 }
 
