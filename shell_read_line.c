@@ -42,7 +42,7 @@ char *read_line(void)
 		{
 			buffsize += INITIAL_BUFFSIZE;
 			new_buffer = realloc(buffer, buffsize);
-			if (!new_buffer)
+			if (new_buffer == NULL)
 			{
 				fprintf(stderr, "dash: Allocation error\n");
 				free(new_buffer);
