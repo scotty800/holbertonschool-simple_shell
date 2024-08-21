@@ -103,7 +103,8 @@ $ ./hsh
 ````
 ### Flowchart
 
-A faire
+![WhatsApp Image 2024-08-20 à 13 11 44_f172dfe4](https://github.com/user-attachments/assets/4370fa27-0595-425b-8f73-1db6d0f074a2)
+
 ## How to use it
 
 In order to use this shell, in a terminal, first run the program:
@@ -116,18 +117,30 @@ It will then display a simple prompt and wait for commands.
 Exemple 1 :
 ``` 
 ls -a
- A faire
+.  ..  .git  README.md  _strcat.c  _strcmp.c  _strcpy.c  _strdup.c  dash_exit.c  hsh  prompt.c  shell.h  shell_execute.c  shell_main.c  shell_path.c  shell_read_line.c  shell_split_token.c
 ```
 
 Exemple 2
 ```
 "/bin/ls"
-A Faire
+README.md  _strcat.c  _strcmp.c  _strcpy.c  _strdup.c  dash_exit.c  hsh  prompt.c  shell.h  shell_execute.c  shell_main.c  shell_path.c  shell_read_line.c  shell_split_token.c
 ```
 
-## Description of function 
 
-A Faire 
+## Description of function
+
+- [shell_read_line](https://github.com/scotty800/holbertonschool-simple_shell/blob/main/shell_read_line.c) : function reads a line of input from standard input, dynamically allocating and resizing a buffer to fit the input size
+
+- [shell_execute](https://github.com/scotty800/holbertonschool-simple_shell/blob/main/shell_execute.c) : function runs a command by forking a child process, handling errors, and returns 1 to continue or 0 to exit the shell
+
+- [prompt.c](https://github.com/scotty800/holbertonschool-simple_shell/blob/main/prompt.c) : function displays a prompt, reads a line of input, and handles errors from getline
+
+- [shell_split_token](https://github.com/scotty800/holbertonschool-simple_shell/blob/main/shell_split_token.c) : function splits an input line into tokens based on delimiters, dynamically resizing the token array as needed, and returns the array.
+
+- [shell_path]( https://github.com/scotty800/holbertonschool-simple_shell/blob/main/shell_path.c): function finds and returns the executable's full path in the system's PATH or NULL if not found or accessible.
+
+-  [dash_exit](https://github.com/scotty800/holbertonschool-simple_shell/blob/main/dash_exit.c) : function terminates the program with a successful exit status.
+
 ### Author 
 
 [Yannis Ranguin](https://github.com/Yannis95200)
