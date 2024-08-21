@@ -16,7 +16,7 @@ char *read_line(void)
 	char *new_buffer;
 	int c;
 
-	if (!buffer)
+	if (buffer == NULL)
 	{
 		fprintf(stderr, "dash: Allocation error\n");
 		free(buffer);
