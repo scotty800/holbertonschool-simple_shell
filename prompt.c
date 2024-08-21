@@ -22,6 +22,6 @@ void prompt_main(char **input_line)
 	{
 		*input_line = NULL;
 		free(*input_line);
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 }
