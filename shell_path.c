@@ -18,7 +18,6 @@ char *shell_path(char *filename)
 		perror("strdup on path");
 		perror("malloc");
 		free(path_full);
-		free(path_copy);
 		exit(EXIT_FAILURE);
 	}
 	for (dir = strtok(path_copy, ":"); dir != NULL; dir = strtok(NULL, ":"))
@@ -38,7 +37,6 @@ char *shell_path(char *filename)
 			else
 			{
 				fprintf(stderr, "shell: permission refusée : %s\n", path_full);
-				free(path_copy);
 				free(path_full);
 				return (NULL);
 			}

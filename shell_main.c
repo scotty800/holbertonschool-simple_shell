@@ -21,8 +21,8 @@ int main(void)
 
 		if (input_line == NULL || *input_line == '\0')
 		{
-			free(input_line);
 			input_line = NULL;
+			free(input_line);
 			break;
 		}
 

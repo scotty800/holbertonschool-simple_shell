@@ -21,6 +21,7 @@ char **split_token(char *input_line)
 	if (tokens == NULL)
 	{
 		fprintf(stderr, "Allocation error\n");
+		free(tokens);
 		exit(EXIT_FAILURE);
 	}
 
