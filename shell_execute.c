@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * shell_execute - Executes a command based on user input.
  * @args: An array of command arguments Forks a child process to execute
@@ -13,56 +12,39 @@ int shell_execute(char **args)
 	char *envp[] = {NULL};
 	char *cmd_path = NULL;
 
+	if (args[0] == NULL)
+		return (1);
+	if (_strcmp(args[0], "exit") == 0)
+		return (0);
+	if (args[0][0] == '/' || args[0][0] == '.')
+	{
+		cmd_path = args[0];
+	}
+	else
+	{
+		cmd_path = shell_path(args[0]);
+		if (cmd_path == NULL)
+		{
+			fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
+			return (1);
+		}
+	}
 	cpid = fork();
 	if (cpid < 0)
 	{
 		perror("shell");
-		return (1);
 	}
-
-	if (cpid == 0)
+	else if (cpid == 0)
 	{
-		if (args[0] == NULL)
-			exit(EXIT_FAILURE);
-
-		if (_strcmp(args[0], "exit") == 0)
-			exit(EXIT_SUCCESS);
-
-		if (args[0][0] == '/' || args[0][0] == '.')
-		{
-			cmd_path = shell_path(args[0]);
-			if (cmd_path == NULL)
-			{
-				perror("shell");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			cmd_path = shell_path(args[0]);
-			if (cmd_path == NULL)
-			{
-				fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
-				exit(EXIT_FAILURE);
-			}
-		}
-
 		if (execve(cmd_path, args, envp) == -1)
 		{
 			perror("shell");
-			free(cmd_path);
-			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
 		waitpid(cpid, &status, WUNTRACED);
 	}
-
-	if (cmd_path != NULL && cmd_path != args[0])
-	{
-		free(cmd_path);
-	}
-
+	free(cmd_path);
 	return (1);
 }
