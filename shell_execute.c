@@ -35,6 +35,7 @@ int shell_execute(char **args)
 	{
 		if (execve(cmd_path, args, envp) == -1)
 			perror("shell");
+		free(execve);
 		exit(EXIT_FAILURE);
 	}
 	else if (cpid < 0)
@@ -46,7 +47,6 @@ int shell_execute(char **args)
 		waitpid(cpid, &status, WUNTRACED);
 	}
 	if (args[0][0] != '/' && args[0][0] != '.')
-		free(cpid);
 		free(cmd_path);
 	return (1);
 }
