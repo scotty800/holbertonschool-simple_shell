@@ -51,4 +51,5 @@ char *read_line(void)
 			buffer = new_buffer;
 		}
 	}
+	free(buffer);
 }
