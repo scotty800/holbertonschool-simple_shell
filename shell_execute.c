@@ -1,4 +1,18 @@
 #include "shell.h"
+
+/**
+ * _cmp - Compares the first argument with specific commands and executes
+ * corresponding functions.
+ * @args: Array of strings containing command and arguments.
+ */
+void _cmp(char **args)
+{
+	if (_strcmp(args[0], "exit") == 0)
+		(dash_exit());
+
+	else if (_strcmp(args[0], "env") == 0)
+		(shell_env());
+}
 /**
  * shell_execute - Executes a command based on user input.
  * @args: An array of command arguments Forks a child process to execute
@@ -11,10 +25,7 @@ int shell_execute(char **args)
 	int status;
 	char *cmd_path = NULL;
 
-	if (_strcmp(args[0], "exit") == 0)
-		return (dash_exit());
-	if (_strcmp(args[0], "env") == 0)
-		return (shell_env());
+	_cmp(args);
 	if (args[0][0] == '/' || args[0][0] == '.')
 		cmd_path = args[0];
 	else
@@ -46,5 +57,7 @@ int shell_execute(char **args)
 		if (waitpid(cpid, &status, WUNTRACED) == -1)
 			perror("waitpid");
 	}
+	if (cmd_path != args[0])
+		free(cmd_path);
 	return (1);
 }
