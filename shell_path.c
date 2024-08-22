@@ -17,6 +17,7 @@ char *shell_path(char *filename)
 		fprintf(stderr, "ERROR: PATH\n");
 		perror("strdup on path");
 		perror("malloc");
+		free(path_copy);
 		free(path_full);
 		exit(EXIT_FAILURE);
 	}
@@ -37,6 +38,7 @@ char *shell_path(char *filename)
 			else
 			{
 				fprintf(stderr, "shell: permission refusée : %s\n", path_full);
+				free(path_copy);
 				free(path_full);
 				return (NULL);
 			}

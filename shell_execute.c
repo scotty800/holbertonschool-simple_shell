@@ -23,6 +23,7 @@ int shell_execute(char **args)
 		if (cmd_path == NULL)
 		{
 			fprintf(stderr, "shell: commande introuvable : %s\n", args[0]);
+			exit(127);
 			return (1);
 		}
 	}
@@ -32,8 +33,7 @@ int shell_execute(char **args)
 		if (execve(cmd_path, args, environ) < 0)
 		{
 			perror("execve");
-			if (cmd_path && cmd_path != args[0])
-				exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (cpid < 0)

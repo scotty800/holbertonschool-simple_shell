@@ -44,10 +44,12 @@ char *read_line(void)
 			if (new_buffer == NULL)
 			{
 				fprintf(stderr, "dash: Allocation error\n");
+				free(new_buffer);
 				free(buffer);
 				exit(EXIT_FAILURE);
 			}
 			buffer = new_buffer;
 		}
 	}
+	free(buffer);
 }
